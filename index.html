@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            background-color: rgb(255, 255, 255);
+            background-position: center;
+            background-size: 100% 100%;
+            border: 1px solid #d3d3d3;
+        }
+        #cumulatedView{
+            width: 100v;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div>
+        <input type="number" id="degree" value="36" />
+    </div>
+    <canvas id="cumulatedView" width="1600" height="760"></canvas>
+
+    <script>
+    document.getElementById('cumulatedView').addEventListener('keypress', handleKeyPress);
+    function handleKeyPress(e) { }
+
+        function drawShape() {
+
+            var degree = document.getElementById("degree");
+            var angle = Number(document.getElementById("degree").value)	// Degree
+            //var angle = 55	// Degree
+            var set = 400;
+            var c = document.getElementById("cumulatedView");
+            var ctx = c.getContext("2d");
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            x2 = set;
+            y2 = set;
+            length = 300;
+            x1 = 0;
+            y1 = 0;
+            diff = 180 - angle
+            ctx.clearRect(0, 0, c.width, c.height);
+            ctx.font = "30px Arial";
+            ctx.fillText(`angle = ${angle}`, 10, 50);
+            while (Math.round(x1) !== set || Math.round(y1) !== set) {
+                x1 = x2 - Math.cos(Math.PI * angle / 180) * length;
+                y1 = y2 - Math.sin(Math.PI * angle / 180) * length;
+
+                console.log(x1, y1, angle)
+
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+
+                angle += diff
+
+                x2 = x1
+                y2 = y1
+            }
+        }
+
+        document.getElementById('degree').onchange = function () {
+            //document.getElementById("cumulatedView").clearRect(0, 0, 1000, 1000);
+            drawShape()
+        };
+        document.getElementById("cumulatedView").addEventListener('keydown', function (e) {
+            alert(e.which);
+        });
+        drawShape();
+
+
+    </script>
+</body>
+
+</html>
